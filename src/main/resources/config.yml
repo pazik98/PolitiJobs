@@ -1,0 +1,23 @@
+mysql:
+  enable: TRUE
+  host: 'localhost'
+  port: 3306
+  user: 'root'
+  password: 'root'
+  dbname: 'minecraft_server'
+
+messages:
+  commands:
+    profession:
+      unknown-command: '&aUnknown command! Use /prof help'
+      set:
+        is-current: 'This is your current profession!'
+        console-sender: '&aCannot execute from console!'
+        success: '&aYou have changed your profession to %profession%!'
+        prof-not-exist: '&aThere is no such profession.'
+        wrong-arg: '&aWrong argument! Usage: /prof set [profession]'
+      list:
+        success: '&aProfession list:%professions%'
+        wrong-arg: '&aWrong argument! Usage: /prof list'
+      info: 'You are %profession%!'
+      help: 'Available commands:%commands%'

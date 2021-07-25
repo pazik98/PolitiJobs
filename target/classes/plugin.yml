@@ -1,0 +1,18 @@
+#General Data
+name: PolitiJobs
+version: 0.1
+description: Plugin for roleplay on server.
+author: pazik98
+api-version: 1.17
+
+#Plugin Data
+main: ru.pjobs.PolitiJobsMain
+
+#Commands
+commands:
+  profession:
+    description: Profession functions
+    aliases:
+      - prof
+      - p
+    usage: /profession [parameter]

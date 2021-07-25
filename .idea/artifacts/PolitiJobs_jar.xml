@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="PolitiJobs:jar">
+    <output-path>$PROJECT_DIR$/../../Minecraft Spigot 1.17/plugins</output-path>
+    <root id="archive" name="PolitiJobs.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/src/main/recources/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="module-output" name="PolitiJobs" />
+    </root>
+  </artifact>
+</component>
