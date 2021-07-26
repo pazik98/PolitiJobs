@@ -56,5 +56,8 @@ public class PlayerSessionListener implements Listener {
 
         // Remove player from list on quit
         ru.pjobs.worker.Player.removeFromOnlineListByName(playerName);
+
+        // Save DB
+        plugin.saveDB();
     }
 }

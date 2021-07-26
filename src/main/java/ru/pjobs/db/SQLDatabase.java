@@ -25,13 +25,15 @@ public class SQLDatabase {
         Connection conn;
 
         if (c.getBoolean("mysql.enable")) {
+
+            // Get data from config
             String host = c.getString("mysql.host");
             int port = c.getInt("mysql.port");
             String dbname = c.getString("mysql.dbname");
 
             user = c.getString("mysql.user");
             password = c.getString("mysql.password");
-            url = "jdbc:mysql://" + host + ":" + port + "/" + dbname;
+            url = "jdbc:mysql://" + host + ":" + port + "/" + dbname + "?useSSL=false";
 
             // Trying to connect MySQL
             try {
@@ -40,11 +42,11 @@ public class SQLDatabase {
                 plugin.getLogger().info("MySQL connected");
             } catch (Exception e) {
                 // Connecting SQLite
+                plugin.getLogger().warning("Failed to connect to MySQL. Using SQLite...");
                 url = "jdbc:sqlite:" + plugin.getDataFolder() + File.separator + "database.db";
                 Class.forName("org.sqlite.JDBC").getDeclaredConstructor().newInstance();
                 user = null;
                 conn = getConnection();
-                plugin.getLogger().warning("Failed to connect to MySQL. Using SQLite...");
             }
         } else {
             // Connecting SQLite
@@ -54,9 +56,7 @@ public class SQLDatabase {
             plugin.getLogger().info("SQLite connected");
         }
 
-        //conn = getConnection();
         Statement s = conn.createStatement();
-
         s.executeUpdate("CREATE TABLE IF NOT EXISTS player_job_account (`name` VARCHAR(32) not null, `job_id` VARCHAR(32), `level` INT, `experience` INT);");
         s.close();
         conn.close();
@@ -74,20 +74,28 @@ public class SQLDatabase {
     public void saveData(List<Player> players) {
         try {
             Connection c = getConnection();
-            Statement s = c.createStatement();
 
             for (Player player : players) {
                 String name = player.getName();
                 String professionId = player.getProfession().getId();
                 int level = player.getLevel();
                 int experience = player.getExperience();
-                s.executeUpdate(String.format("INSERT INTO player_job_account (`name`, `job_id`, `level`, `experience`) VALUES ('%s', '%s', %d, %d);",
-                        name, professionId, level, experience));
-            }
-            plugin.getLogger().info("DB Saved!");
 
-            s.close();
+                if (getPlayer(name) == null) {
+                    Statement s = c.createStatement();
+                    s.executeUpdate(String.format("INSERT INTO player_job_account (`name`, `job_id`, `level`, `experience`) VALUES ('%s', '%s', %d, %d);",
+                            name, professionId, level, experience));
+                    s.close();
+                }
+                else {
+                    PreparedStatement ps = c.prepareStatement(String.format("UPDATE player_job_account SET job_id = '%s', level = '%d', experience = '%d' WHERE name = '%s';",
+                            professionId, level, experience, name));
+                    ps.executeUpdate();
+                    ps.close();
+                }
+            }
             c.close();
+            // plugin.getLogger().info("DB Saved!");
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,7 +106,8 @@ public class SQLDatabase {
         Player player;
         try {
             Connection c = getConnection();
-            Statement s = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            //Statement s = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
+            Statement s = c.createStatement();
 
             ResultSet result = s.executeQuery("SELECT * FROM player_job_account where name='" + name + "';");
 
