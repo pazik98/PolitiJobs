@@ -1,5 +1,6 @@
 package ru.pjobs.worker;
 
+import ru.pjobs.db.SQLDatabase;
 import ru.pjobs.skill.Profession;
 
 import java.util.ArrayList;
@@ -16,15 +17,15 @@ public class Player {
     private List<String> allowedCraft = new ArrayList<String>();
     private List<String> allowedEnchant = new ArrayList<String>();
 
+    private static List<Player> onlineList = new ArrayList<>();
+
     public Player(String name, Profession profession, int level, int experience) {
         this.name = name;
         this.profession = profession;
         this.level = level;
         this.experience = experience;
 
-        this.allowedDestroy.addAll(profession.getAccessLevels()[level-1].getDestroyList());
-        this.allowedCraft.addAll(profession.getAccessLevels()[level-1].getCraftList());
-        this.allowedEnchant.addAll(profession.getAccessLevels()[level-1].getEnchantList());
+        this.updateAllowedLists();
     }
 
     public Player(String name) {
@@ -62,19 +63,29 @@ public class Player {
         return allowedEnchant;
     }
 
+    public static List<Player> getOnlineList() {
+        return onlineList;
+    }
+
+    public static Player getFromOnlineListByName(String name) {
+        for (Player player : onlineList) {
+            if (player.getName().equals(name)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
     public void setProfession(Profession profession) {
         this.profession = profession;
         this.level = 1;
         this.experience = 0;
 
         this.allowedDestroy = new ArrayList<>();
-        this.allowedDestroy.addAll(this.profession.getAccessLevels()[this.level-1].getDestroyList());
-
         this.allowedCraft = new ArrayList<>();
-        this.allowedCraft.addAll(this.profession.getAccessLevels()[this.level-1].getCraftList());
-
         this.allowedEnchant = new ArrayList<>();
-        this.allowedEnchant.addAll(this.profession.getAccessLevels()[this.level-1].getEnchantList());
+
+        this.updateAllowedLists();
     }
 
     public void setAllowedDestroy(List<String> allowedDestroy) {
@@ -117,12 +128,33 @@ public class Player {
         }
     }
 
+    public void addToOnlineList() {
+        onlineList.add(this);
+    }
+
+    public static void addListToOnlineList(List<Player> list) {
+        onlineList.addAll(list);
+    }
+
+    public void removeFromOnlineList() {
+        onlineList.remove(this);
+    }
+
+    public static void removeFromOnlineListByName(String name) {
+        Player player = getFromOnlineListByName(name);
+        player.removeFromOnlineList();
+    }
+
     public void levelUp() {
         if (this.profession != null) {
             this.level += 1;
-            this.allowedDestroy.addAll(this.profession.getAccessLevels()[this.level-1].getDestroyList());
-            this.allowedCraft.addAll(this.profession.getAccessLevels()[this.level-1].getCraftList());
-            this.allowedEnchant.addAll(this.profession.getAccessLevels()[this.level-1].getEnchantList());
+            this.updateAllowedLists();
         }
+    }
+
+    public void updateAllowedLists() {
+        this.allowedDestroy.addAll(this.profession.getAccessLevels()[this.level-1].getDestroyList());
+        this.allowedCraft.addAll(this.profession.getAccessLevels()[this.level-1].getCraftList());
+        this.allowedEnchant.addAll(this.profession.getAccessLevels()[this.level-1].getEnchantList());
     }
 }

@@ -6,7 +6,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import ru.pjobs.PolitiJobsMain;
 import ru.pjobs.worker.Player;
-import ru.pjobs.worker.PlayerManager;
 
 public class InfoCommand implements CommandExecutor {
 
@@ -28,12 +27,12 @@ public class InfoCommand implements CommandExecutor {
                 sender.sendMessage(ChatColor.RED + "Can't use in console!");
                 return true;
             }
-            Player p = PlayerManager.playerContainer.getPlayerByName(sender.getName());
+            Player p = Player.getFromOnlineListByName(sender.getName());
             sender.sendMessage(ChatColor.AQUA + p.getName() + ChatColor.WHITE + " info:\n Profession: " + p.getProfession().getName());
             return true;
         }
         else if (args.length == 1) {
-            Player p = PlayerManager.playerContainer.getPlayerByName(args[0]);
+            Player p = Player.getFromOnlineListByName(args[0]);
             if (p == null) {
                 sender.sendMessage(ChatColor.RED + "Player not found!");
                 return true;

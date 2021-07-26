@@ -6,7 +6,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import ru.pjobs.PolitiJobsMain;
 import ru.pjobs.skill.AccessLevel;
 import ru.pjobs.skill.Profession;
-import ru.pjobs.worker.PlayerManager;
+import ru.pjobs.worker.Player;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ public class BlockDestroyListener implements Listener {
         String blockName = e.getBlock().getBlockData().getMaterial().name();
 
         if (activeBlockList.contains(blockName)) {
-            if (! PlayerManager.playerContainer.getPlayerByName(playerName).getAllowedDestroy().contains(blockName)) {
+            if (!Player.getFromOnlineListByName(playerName).getAllowedDestroy().contains(blockName)) {
                 e.getPlayer().sendMessage("Вы не можете ломать этот блок!");
                 e.setDropItems(false);
             }

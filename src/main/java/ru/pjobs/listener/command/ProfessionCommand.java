@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import ru.pjobs.PolitiJobsMain;
 import ru.pjobs.skill.Profession;
-import ru.pjobs.worker.PlayerManager;
 
 import java.util.Locale;
 
@@ -59,7 +58,7 @@ public class ProfessionCommand implements CommandExecutor {
                 }
 
                 // Check current profession
-                ru.pjobs.worker.Player p = PlayerManager.playerContainer.getPlayerByName(sender.getName());
+                ru.pjobs.worker.Player p = ru.pjobs.worker.Player.getFromOnlineListByName(sender.getName());
                 if (p.getProfession() == Profession.getById(professionId)) {
                     String m = plugin.getConfig().getString("messages.commands.profession.set.is-current");
                     m = m.replace("&", "\u00a7");
@@ -119,7 +118,7 @@ public class ProfessionCommand implements CommandExecutor {
                 String m = plugin.getConfig().getString("messages.commands.profession.info");
                 m = m.replace("&", "\u00a7");
 
-                String profId = PlayerManager.playerContainer.getPlayerByName(sender.getName()).getProfession().getId();
+                String profId = ru.pjobs.worker.Player.getFromOnlineListByName(sender.getName()).getProfession().getId();
 
                 m = m.replace("%profession%", profId);
                 sender.sendMessage(m);

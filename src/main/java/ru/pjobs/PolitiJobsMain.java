@@ -8,8 +8,7 @@ import ru.pjobs.listener.BlockDestroyListener;
 import ru.pjobs.listener.PlayerSessionListener;
 import ru.pjobs.listener.command.ProfessionCommand;
 import ru.pjobs.skill.*;
-import ru.pjobs.worker.PlayerContainer;
-import ru.pjobs.worker.PlayerManager;
+import ru.pjobs.worker.Player;
 
 import java.io.File;
 import java.util.logging.Logger;
@@ -44,9 +43,6 @@ public class PolitiJobsMain extends JavaPlugin {
 
         // Reading professions.json
         Profession.loadConfig(getDataFolder() + File.separator + "professions.json");
-
-        // Init player manager
-        PlayerManager.playerContainer = new PlayerContainer();
 
         // Connecting database
         /*
@@ -100,7 +96,7 @@ public class PolitiJobsMain extends JavaPlugin {
     }
 
     public void saveDB() {
-        db.saveData(PlayerManager.playerContainer.getPlayers());
+        db.saveData(Player.getOnlineList());
     }
 
     public SQLDatabase getDb() {

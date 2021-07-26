@@ -6,7 +6,6 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import ru.pjobs.PolitiJobsMain;
-import ru.pjobs.worker.PlayerManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,18 +33,18 @@ public class PlayerSessionListener implements Listener {
         }
 
 
-        if (PlayerManager.playerContainer.getPlayerByName(playerName) == null && DBPlayer == null) {
+        if (ru.pjobs.worker.Player.getFromOnlineListByName(playerName) == null && DBPlayer == null) {
             // Creating new player profile
             ru.pjobs.worker.Player newPlayer = new ru.pjobs.worker.Player(playerName);
             List<ru.pjobs.worker.Player> list = new ArrayList<>();
             list.add(newPlayer);
-            PlayerManager.playerContainer.addPlayers(list);
+            ru.pjobs.worker.Player.addListToOnlineList(list);
         }
         else {
             // Using loaded player profile
             List<ru.pjobs.worker.Player> list = new ArrayList<>();
             list.add(DBPlayer);
-            PlayerManager.playerContainer.addPlayers(list);
+            ru.pjobs.worker.Player.addListToOnlineList(list);
         }
     }
 
@@ -56,6 +55,6 @@ public class PlayerSessionListener implements Listener {
         String playerName = p.getName();
 
         // Remove player from list on quit
-        PlayerManager.playerContainer.getPlayers().remove(PlayerManager.playerContainer.getPlayerByName(playerName));
+        ru.pjobs.worker.Player.removeFromOnlineListByName(playerName);
     }
 }
