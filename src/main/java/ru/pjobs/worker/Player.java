@@ -1,5 +1,6 @@
 package ru.pjobs.worker;
 
+import ru.pjobs.PolitiJobsMain;
 import ru.pjobs.db.SQLDatabase;
 import ru.pjobs.skill.Profession;
 
@@ -86,6 +87,8 @@ public class Player {
         this.allowedEnchant = new ArrayList<>();
 
         this.updateAllowedLists();
+
+        PolitiJobsMain.getInstance().getDb();
     }
 
     public void setAllowedDestroy(List<String> allowedDestroy) {

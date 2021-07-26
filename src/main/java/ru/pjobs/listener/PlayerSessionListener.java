@@ -32,7 +32,6 @@ public class PlayerSessionListener implements Listener {
             DBPlayer = null;
         }
 
-
         if (ru.pjobs.worker.Player.getFromOnlineListByName(playerName) == null && DBPlayer == null) {
             // Creating new player profile
             ru.pjobs.worker.Player newPlayer = new ru.pjobs.worker.Player(playerName);

@@ -15,9 +15,18 @@ import java.util.logging.Logger;
 
 public class PolitiJobsMain extends JavaPlugin {
 
-    private Logger log = Logger.getLogger("Minecraft");
+    private static PolitiJobsMain instance;
+
     private SQLDatabase db;
     private DatabaseSaver saver;
+
+    public PolitiJobsMain() {
+        instance = this;
+    }
+
+    public static PolitiJobsMain getInstance() {
+        return instance;
+    }
 
     @Override
     public void onEnable() {
