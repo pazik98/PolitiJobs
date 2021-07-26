@@ -43,12 +43,13 @@ public class PolitiJobsMain extends JavaPlugin {
         }
 
         // Reading professions.json
-        ProfessionConfig.professions = new ProfessionParser().parse(getDataFolder() + File.separator + "professions.json");
+        Profession.loadConfig(getDataFolder() + File.separator + "professions.json");
 
         // Init player manager
         PlayerManager.playerContainer = new PlayerContainer();
 
         // Connecting database
+        /*
         try {
             db = new SQLDatabase(this);
         } catch (Exception e) {
@@ -62,6 +63,8 @@ public class PolitiJobsMain extends JavaPlugin {
         } catch (Exception e) {
             e.printStackTrace();
         }
+         */
+
 
 
         // List<String> blockList = new ArrayList<>();
@@ -91,8 +94,8 @@ public class PolitiJobsMain extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        saver.stop();
-        saveDB();
+        //saver.stop();
+        //saveDB();
         log.info("[PJobs] Disabled!");
     }
 

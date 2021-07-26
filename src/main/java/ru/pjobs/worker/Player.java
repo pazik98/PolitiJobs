@@ -1,7 +1,6 @@
 package ru.pjobs.worker;
 
 import ru.pjobs.skill.Profession;
-import ru.pjobs.skill.ProfessionConfig;
 
 import java.util.ArrayList;
 import java.util.List;

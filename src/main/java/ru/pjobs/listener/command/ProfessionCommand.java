@@ -1,16 +1,13 @@
 package ru.pjobs.listener.command;
 
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import ru.pjobs.PolitiJobsMain;
 import ru.pjobs.skill.Profession;
-import ru.pjobs.skill.ProfessionConfig;
 import ru.pjobs.worker.PlayerManager;
 
-import java.util.List;
 import java.util.Locale;
 
 public class ProfessionCommand implements CommandExecutor {
@@ -54,7 +51,7 @@ public class ProfessionCommand implements CommandExecutor {
                 String professionId = args[1];
 
                 // Check for existing of profession
-                if (ProfessionConfig.professions.getProfessionById(professionId) == null) {
+                if (Profession.getById(professionId) == null) {
                     String m = plugin.getConfig().getString("messages.commands.profession.set.prof-not-exist");
                     m = m.replace("&", "\u00a7");
                     sender.sendMessage(m);
@@ -63,7 +60,7 @@ public class ProfessionCommand implements CommandExecutor {
 
                 // Check current profession
                 ru.pjobs.worker.Player p = PlayerManager.playerContainer.getPlayerByName(sender.getName());
-                if (p.getProfession() == ProfessionConfig.professions.getProfessionById(professionId)) {
+                if (p.getProfession() == Profession.getById(professionId)) {
                     String m = plugin.getConfig().getString("messages.commands.profession.set.is-current");
                     m = m.replace("&", "\u00a7");
                     sender.sendMessage(m);
@@ -71,11 +68,11 @@ public class ProfessionCommand implements CommandExecutor {
                 }
 
                 // Set profession
-                p.setProfession(ProfessionConfig.professions.getProfessionById(professionId));
+                p.setProfession(Profession.getById(professionId));
 
                 // Output success message
                 String m = plugin.getConfig().getString("messages.commands.profession.set.success");
-                m = m.replace("%profession%", ProfessionConfig.professions.getProfessionById(professionId).getName());
+                m = m.replace("%profession%", Profession.getById(professionId).getName());
                 m = m.replace("&", "\u00a7");
                 sender.sendMessage(m);
                 return true;
@@ -95,7 +92,7 @@ public class ProfessionCommand implements CommandExecutor {
                 String m = plugin.getConfig().getString("messages.commands.profession.list.success");
 
                 String profs = "";
-                for (Profession pr : ProfessionConfig.professions.getProfessions()) {
+                for (Profession pr : Profession.getConfig()) {
                     profs = profs + "\n" + pr.getId();
                 }
 

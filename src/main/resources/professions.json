@@ -1,42 +1,40 @@
-{
-  "professions": [
-    {
-      "id": "miner",
-      "name": "Miner",
-      "accessLevels": [
-        {
-          "experienceToNextLevel": 1,
-          "destroyList": [
-            "GRASS_BLOCK"
-          ],
-          "craftList": [
-            "GRASS_BLOCK"
-          ],
-          "enchantList": [
-            "GRASS_BLOCK"
-          ]
-        },
-        null
-      ]
-    },
-    {
-      "id": "farmer",
-      "name": "Farmer",
-      "accessLevels": [
-        {
-          "experienceToNextLevel": 1,
-          "destroyList": [
-            "GRASS_BLOCK"
-          ],
-          "craftList": [
-            "GRASS_BLOCK"
-          ],
-          "enchantList": [
-            "GRASS_BLOCK"
-          ]
-        },
-        null
-      ]
-    }
-  ]
-}
+[
+  {
+    "id": "miner",
+    "name": "Miner",
+    "accessLevels": [
+      {
+        "experienceToNextLevel": 1,
+        "destroyList": [
+          "GRASS_BLOCK"
+        ],
+        "craftList": [
+          "GRASS_BLOCK"
+        ],
+        "enchantList": [
+          "GRASS_BLOCK"
+        ]
+      },
+      null
+    ]
+  },
+  {
+    "id": "farmer",
+    "name": "Farmer",
+    "accessLevels": [
+      {
+        "experienceToNextLevel": 1,
+        "destroyList": [
+          "GRASS_BLOCK"
+        ],
+        "craftList": [
+          "GRASS_BLOCK"
+        ],
+        "enchantList": [
+          "GRASS_BLOCK"
+        ]
+      },
+      null
+    ]
+  }
+]

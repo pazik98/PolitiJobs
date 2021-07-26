@@ -1,12 +1,17 @@
 package ru.pjobs.skill;
 
-import com.google.gson.annotations.SerializedName;
+import com.mysql.fabric.xmlrpc.base.Array;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Profession {
 
     private String id;
     private String name;
     private AccessLevel[] accessLevels;
+
+    private static List<Profession> config = new ArrayList<>();
 
     public Profession(String id, String name, AccessLevel[] accessLevels) {
         this.id = id;
@@ -36,6 +41,23 @@ public class Profession {
 
     public void setAccessLevels(AccessLevel[] accessLevels) {
         this.accessLevels = accessLevels;
+    }
+
+    public static List<Profession> getConfig() {
+        return config;
+    }
+
+    public static void loadConfig(String path) {
+        config = new ProfessionParser().parse(path);
+    }
+
+    public static Profession getById(String id) {
+        for (Profession profession : config) {
+            if (profession.getId().equals(id)) {
+                return profession;
+            }
+        }
+        return null;
     }
 
     public String toString() {

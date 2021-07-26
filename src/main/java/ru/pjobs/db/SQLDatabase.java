@@ -2,14 +2,12 @@ package ru.pjobs.db;
 
 import org.bukkit.configuration.file.FileConfiguration;
 import ru.pjobs.PolitiJobsMain;
-import ru.pjobs.skill.ProfessionConfig;
+import ru.pjobs.skill.Profession;
 import ru.pjobs.worker.Player;
 
 import java.io.File;
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class SQLDatabase {
 
@@ -109,7 +107,7 @@ public class SQLDatabase {
             }
 
             result.first();
-            player = new Player(result.getString("name"), ProfessionConfig.professions.getProfessionById(result.getString("job_id")),
+            player = new Player(result.getString("name"), Profession.getById(result.getString("job_id")),
                     result.getInt("level"), result.getInt("experience"));
 
             s.close();
