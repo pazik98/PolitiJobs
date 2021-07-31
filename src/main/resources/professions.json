@@ -15,7 +15,18 @@
           "GRASS_BLOCK"
         ]
       },
-      null
+      {
+        "experienceToNextLevel": 5,
+        "destroyList": [
+          "DIRT"
+        ],
+        "craftList": [
+          "DIRT"
+        ],
+        "enchantList": [
+          "DIRT"
+        ]
+      }
     ]
   },
   {

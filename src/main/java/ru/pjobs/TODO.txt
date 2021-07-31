@@ -1,7 +1,6 @@
  - Remake JSON parser +
  - Remake PlayerManager +
  - Remake DB system +
- - Remake command system
  - Add permissions
  - Remake listener
  - Add notification system

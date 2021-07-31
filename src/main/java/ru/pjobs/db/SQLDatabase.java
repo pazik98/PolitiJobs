@@ -77,7 +77,15 @@ public class SQLDatabase {
 
             for (Player player : players) {
                 String name = player.getName();
-                String professionId = player.getProfession().getId();
+
+                String professionId;
+                if (!(player.getProfession() == null)) {
+                    professionId = player.getProfession().getId();
+                }
+                else {
+                    professionId = "";
+                }
+
                 int level = player.getLevel();
                 int experience = player.getExperience();
 
@@ -106,7 +114,6 @@ public class SQLDatabase {
         Player player;
         try {
             Connection c = getConnection();
-            //Statement s = c.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.CONCUR_READ_ONLY);
             Statement s = c.createStatement();
 
             ResultSet result = s.executeQuery("SELECT * FROM player_job_account where name='" + name + "';");
@@ -114,10 +121,19 @@ public class SQLDatabase {
             if (!result.next()) {
                 return null;
             }
-
             result.first();
-            player = new Player(result.getString("name"), Profession.getById(result.getString("job_id")),
-                    result.getInt("level"), result.getInt("experience"));
+
+            String n = result.getString("name");
+            Profession p = Profession.getById(result.getString("job_id"));
+            int l = result.getInt("level");
+            int e = result.getInt("experience");
+
+            if (p == null) {
+                player = new Player(n);
+            }
+            else {
+                player = new Player(n, p, l, e);
+            }
 
             s.close();
             c.close();

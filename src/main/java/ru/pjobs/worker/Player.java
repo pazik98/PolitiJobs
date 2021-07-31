@@ -14,9 +14,9 @@ public class Player {
     private int level;
     private int experience;
 
-    private List<String> allowedDestroy = new ArrayList<String>();
-    private List<String> allowedCraft = new ArrayList<String>();
-    private List<String> allowedEnchant = new ArrayList<String>();
+    private List<String> allowedDestroy = new ArrayList<>();
+    private List<String> allowedCraft = new ArrayList<>();
+    private List<String> allowedEnchant = new ArrayList<>();
 
     private static List<Player> onlineList = new ArrayList<>();
 

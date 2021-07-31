@@ -45,6 +45,8 @@ public class PlayerSessionListener implements Listener {
             list.add(DBPlayer);
             ru.pjobs.worker.Player.addListToOnlineList(list);
         }
+
+        plugin.saveDB();
     }
 
     @EventHandler

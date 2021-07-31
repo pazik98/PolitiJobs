@@ -10,11 +10,8 @@ import ru.pjobs.worker.Player;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 public class BlockDestroyListener implements Listener {
-
-    Logger log = Logger.getLogger("Minecraft");
 
     // Needed to check the need for verification in onBlockDestroy()
     private List<String> activeBlockList = new ArrayList<>();
@@ -35,8 +32,11 @@ public class BlockDestroyListener implements Listener {
 
         if (activeBlockList.contains(blockName)) {
             if (!Player.getFromOnlineListByName(playerName).getAllowedDestroy().contains(blockName)) {
-                e.getPlayer().sendMessage("Вы не можете ломать этот блок!");
                 e.setDropItems(false);
+
+                String m = PolitiJobsMain.getInstance().getConfig().getString("messages.event.block-break.cancel");
+                m = m.replace("&", "\u00a7");
+                e.getPlayer().sendMessage(m);
             }
         }
     }

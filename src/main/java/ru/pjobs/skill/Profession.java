@@ -1,7 +1,5 @@
 package ru.pjobs.skill;
 
-import com.mysql.fabric.xmlrpc.base.Array;
-
 import java.util.ArrayList;
 import java.util.List;
 

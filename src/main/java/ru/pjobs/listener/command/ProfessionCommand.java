@@ -33,7 +33,7 @@ public class ProfessionCommand implements CommandExecutor {
             {
                 // Check for command sender
                 if (!(sender instanceof Player)) {
-                    String m = plugin.getConfig().getString("messages.commands.set.console-sender");
+                    String m = plugin.getConfig().getString("messages.commands.profession.set.console-sender");
                     m = m.replace("&", "\u00a7");
                     sender.sendMessage(m);
                     return true;
@@ -106,7 +106,7 @@ public class ProfessionCommand implements CommandExecutor {
                 String m = plugin.getConfig().getString("messages.commands.profession.help");
                 m = m.replace("&", "\u00a7");
 
-                String commands = "\n/- p list\n/- p set";
+                String commands = "\n- /p list\n- /p set";
 
                 m = m.replace("%commands%", commands);
                 sender.sendMessage(m);
@@ -115,12 +115,31 @@ public class ProfessionCommand implements CommandExecutor {
 
             case("info"):
             {
-                String m = plugin.getConfig().getString("messages.commands.profession.info");
+                String m = plugin.getConfig().getString("messages.commands.profession.info.profile");
                 m = m.replace("&", "\u00a7");
 
-                String profId = ru.pjobs.worker.Player.getFromOnlineListByName(sender.getName()).getProfession().getId();
+                ru.pjobs.worker.Player player = ru.pjobs.worker.Player.getFromOnlineListByName(sender.getName());
+                Profession p = player.getFromOnlineListByName(sender.getName()).getProfession();
 
+                String name = player.getName();
+                String profId;
+                String level;
+                String experience;
+                if (p == null) {
+                    profId = "None";
+                    level = "0";
+                    experience = "0";
+                }
+                else {
+                    profId = p.getId();
+                    level = Integer.toString(player.getLevel());
+                    experience = Integer.toString(player.getExperience());
+                }
+
+                m = m.replace("%name%", name);
                 m = m.replace("%profession%", profId);
+                m = m.replace("%level%", level);
+                m = m.replace("%exp%", experience);
                 sender.sendMessage(m);
                 return true;
             }
