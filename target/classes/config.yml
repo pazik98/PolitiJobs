@@ -11,13 +11,26 @@ messages:
     profession:
       unknown-command: '&aUnknown command! Use /prof help'
       set:
+        description: 'This command allows you to choose a profession. To view the list of professions, enter &e/p list'
         is-current: 'This is your current profession!'
-        console-sender: '&aCannot execute from console!'
-        success: '&aYou have changed your profession to %profession%!'
-        prof-not-exist: '&aThere is no such profession.'
-        wrong-arg: '&aWrong argument! Usage: /prof set [profession]'
+        console-sender: 'Cannot execute from console!'
+        success: 'You have changed your profession to &a%profession%!'
+        prof-not-exist: 'There is no such profession.'
+        wrong-arg: '&4Wrong argument! &fUsage: /prof set [profession]'
       list:
-        success: '&aProfession list:%professions%'
+        description: 'This command displays a list of available professions'
+        success: '&aProfession list: &f0%professions%'
         wrong-arg: '&aWrong argument! Usage: /prof list'
-      info: 'You are %profession%!'
+      info:
+        description: 'This command displays the player profile'
+        profile: |
+          ------------------------------
+          &b%name% &fprofile:
+          Profession: &a%profession%
+          &fLevel: &e%level%
+          &fExperience: &e%exp%xp
+          &f------------------------------
       help: 'Available commands:%commands%'
+  event:
+    block-break:
+      cancel: '&cYou cannot get resources from this block!'

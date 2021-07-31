@@ -1,18 +1,35 @@
-#General Data
+# General Data
 name: PolitiJobs
 version: 0.1
 description: Plugin for roleplay on server.
 author: pazik98
 api-version: 1.17
+database: true
 
-#Plugin Data
+# Plugin Data
 main: ru.pjobs.PolitiJobsMain
 
-#Commands
+# Commands
 commands:
   profession:
-    description: Profession functions
+    description: Profession commands
     aliases:
       - prof
       - p
-    usage: /profession [parameter]
+    usage: /profession [command]
+
+# Permissions
+permissions:
+  command:
+    profession.set:
+      description: This permission allows the player to change profession
+      default: not op
+    profession.set.admin:
+      description: This permission allows the admin to change profession for other player
+      default: op
+    profession.list:
+      description: This permission allows the player to view the list of professions
+      default: not op
+    profession.help:
+      description: This permission allows the player to get information about the plugin commands
+      default: not op

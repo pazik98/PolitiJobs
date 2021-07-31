@@ -11,8 +11,8 @@ main: ru.pjobs.PolitiJobsMain
 #Commands
 commands:
   profession:
-    description: Profession functions
+    description: Profession commands
     aliases:
       - prof
       - p
-    usage: /profession [parameter]
+    usage: /profession [command]
