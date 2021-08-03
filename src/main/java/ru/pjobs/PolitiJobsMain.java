@@ -72,7 +72,7 @@ public class PolitiJobsMain extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new PlayerSessionListener(this), this);
         Bukkit.getPluginManager().registerEvents(new BlockDestroyListener(this), this);
 
-        getCommand("profession").setExecutor(new ProfessionCommand(this));
+        getCommand("profession").setExecutor(new ProfessionCommand());
 
         getLogger().info("Plugin enabled!");
     }

@@ -7,6 +7,8 @@ mysql:
   dbname: 'minecraft_server'
 
 messages:
+  no-permission: '&aYou do not have permission to do this'
+  no-player: '&aPlayer not found'
   commands:
     profession:
       unknown-command: '&aUnknown command! Use /prof help'

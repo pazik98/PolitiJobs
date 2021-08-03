@@ -3,26 +3,24 @@ package ru.pjobs.listener.command;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import ru.pjobs.PolitiJobsMain;
 import ru.pjobs.skill.Profession;
 
+import java.lang.module.Configuration;
 import java.util.Locale;
 
 public class ProfessionCommand implements CommandExecutor {
 
-    private PolitiJobsMain plugin;
-
-    public ProfessionCommand(PolitiJobsMain plugin) {
-        this.plugin = plugin;
-    }
+    private FileConfiguration config = PolitiJobsMain.getInstance().getConfig();
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 
         // Check for arg count
         if (args.length < 1) {
-            String m = plugin.getConfig().getString("messages.commands.profession.unknown-command");
+            String m = config.getString("messages.commands.profession.unknown-command");
             m = m.replace("&", "\u00a7");
             sender.sendMessage(m);
             return true;
@@ -33,7 +31,7 @@ public class ProfessionCommand implements CommandExecutor {
             {
                 // Check for command sender
                 if (!(sender instanceof Player)) {
-                    String m = plugin.getConfig().getString("messages.commands.profession.set.console-sender");
+                    String m = config.getString("messages.commands.profession.set.console-sender");
                     m = m.replace("&", "\u00a7");
                     sender.sendMessage(m);
                     return true;
@@ -41,7 +39,7 @@ public class ProfessionCommand implements CommandExecutor {
 
                 // Check for valid arguments
                 if (args.length != 2) {
-                    String m = plugin.getConfig().getString("messages.commands.profession.set.wrong-arg");
+                    String m = config.getString("messages.commands.profession.set.wrong-arg");
                     m = m.replace("&", "\u00a7");
                     sender.sendMessage(m);
                     return true;
@@ -51,7 +49,7 @@ public class ProfessionCommand implements CommandExecutor {
 
                 // Check for existing of profession
                 if (Profession.getById(professionId) == null) {
-                    String m = plugin.getConfig().getString("messages.commands.profession.set.prof-not-exist");
+                    String m = config.getString("messages.commands.profession.set.prof-not-exist");
                     m = m.replace("&", "\u00a7");
                     sender.sendMessage(m);
                     return true;
@@ -60,7 +58,7 @@ public class ProfessionCommand implements CommandExecutor {
                 // Check current profession
                 ru.pjobs.worker.Player p = ru.pjobs.worker.Player.getFromOnlineListByName(sender.getName());
                 if (p.getProfession() == Profession.getById(professionId)) {
-                    String m = plugin.getConfig().getString("messages.commands.profession.set.is-current");
+                    String m = config.getString("messages.commands.profession.set.is-current");
                     m = m.replace("&", "\u00a7");
                     sender.sendMessage(m);
                     return true;
@@ -70,7 +68,7 @@ public class ProfessionCommand implements CommandExecutor {
                 p.setProfession(Profession.getById(professionId));
 
                 // Output success message
-                String m = plugin.getConfig().getString("messages.commands.profession.set.success");
+                String m = config.getString("messages.commands.profession.set.success");
                 m = m.replace("%profession%", Profession.getById(professionId).getName());
                 m = m.replace("&", "\u00a7");
                 sender.sendMessage(m);
@@ -81,14 +79,14 @@ public class ProfessionCommand implements CommandExecutor {
             {
                 // Check for valid arguments
                 if (args.length != 1) {
-                    String m = plugin.getConfig().getString("messages.commands.profession.list.wrong-arg");
+                    String m = config.getString("messages.commands.profession.list.wrong-arg");
                     m = m.replace("&", "\u00a7");
                     sender.sendMessage(m);
                     return true;
                 }
 
                 // Output success message
-                String m = plugin.getConfig().getString("messages.commands.profession.list.success");
+                String m = config.getString("messages.commands.profession.list.success");
 
                 String profs = "";
                 for (Profession pr : Profession.getConfig()) {
@@ -103,7 +101,7 @@ public class ProfessionCommand implements CommandExecutor {
 
             case("help"):
             {
-                String m = plugin.getConfig().getString("messages.commands.profession.help");
+                String m = config.getString("messages.commands.profession.help");
                 m = m.replace("&", "\u00a7");
 
                 String commands = "\n- /p list\n- /p set";
@@ -115,16 +113,40 @@ public class ProfessionCommand implements CommandExecutor {
 
             case("info"):
             {
-                String m = plugin.getConfig().getString("messages.commands.profession.info.profile");
+                String m = config.getString("messages.commands.profession.info.profile");
                 m = m.replace("&", "\u00a7");
 
-                ru.pjobs.worker.Player player = ru.pjobs.worker.Player.getFromOnlineListByName(sender.getName());
-                Profession p = player.getFromOnlineListByName(sender.getName()).getProfession();
+                ru.pjobs.worker.Player player;
+                if (args[1] != null) {
+                    if (sender.hasPermission("command.profession.info.admin")) {
+                        player = ru.pjobs.worker.Player.getFromOnlineListByName(args[1]);
+                        if (player == null) {
+                            sender.sendMessage(config.getString("messages.no-player"));
+                            return true;
+                        }
+                    }
+                    else {
+                        sender.sendMessage(config.getString("messages.no-permission"));
+                        return true;
+                    }
+                }
+                else {
+                    if (sender.hasPermission("command.profession.info")) {
+                        player = ru.pjobs.worker.Player.getFromOnlineListByName(sender.getName());
+                    }
+                    else {
+                        sender.sendMessage("messages.no-permission");
+                        return true;
+                    }
+                }
+
+                Profession p = player.getProfession();
 
                 String name = player.getName();
                 String profId;
                 String level;
                 String experience;
+
                 if (p == null) {
                     profId = "None";
                     level = "0";
@@ -141,12 +163,13 @@ public class ProfessionCommand implements CommandExecutor {
                 m = m.replace("%level%", level);
                 m = m.replace("%exp%", experience);
                 sender.sendMessage(m);
+
                 return true;
             }
 
             default:
             {
-                String m = plugin.getConfig().getString("messages.commands.profession.unknown-command");
+                String m = config.getString("messages.commands.profession.unknown-command");
                 m = m.replace("&", "\u00a7");
                 sender.sendMessage(m);
                 return true;

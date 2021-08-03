@@ -27,6 +27,12 @@ permissions:
     profession.set.admin:
       description: This permission allows the admin to change profession for other player
       default: op
+    profession.info:
+      description: This permission allows the player to view his profile info
+      default: not op
+    profession.info.admin:
+      description: This permission allows the admin to view other player's profile
+      default: op
     profession.list:
       description: This permission allows the player to view the list of professions
       default: not op
